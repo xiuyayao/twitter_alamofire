@@ -116,13 +116,13 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="APl-YP-jha">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="APl-YP-jha">
                                                     <rect key="frame" x="88" y="106.5" width="35" height="35"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="35" id="2vi-DV-ok5"/>
                                                         <constraint firstAttribute="height" constant="35" id="xsY-N3-v8r"/>
                                                     </constraints>
-                                                    <state key="normal" title="Button"/>
+                                                    <state key="normal" title="Button" image="retweet-icon"/>
                                                     <state key="selected" image="retweet-icon-green"/>
                                                     <connections>
                                                         <action selector="retweetAction:" destination="U1g-kw-izy" eventType="touchUpInside" id="jn5-MJ-jik"/>
@@ -134,13 +134,13 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vVb-3H-eIA">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vVb-3H-eIA">
                                                     <rect key="frame" x="209" y="106" width="35" height="35"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="35" id="mGe-k7-mwM"/>
                                                         <constraint firstAttribute="width" constant="35" id="smz-MW-8B2"/>
                                                     </constraints>
-                                                    <state key="normal" title="Button"/>
+                                                    <state key="normal" title="Button" image="favor-icon"/>
                                                     <state key="selected" image="favor-icon-red"/>
                                                     <connections>
                                                         <action selector="likeAction:" destination="U1g-kw-izy" eventType="touchUpInside" id="ZDK-Gd-txv"/>
@@ -207,7 +207,7 @@
                                             <outlet property="nameLabel" destination="wi0-6i-OKb" id="m5l-7i-b6c"/>
                                             <outlet property="profileImage" destination="srU-C6-zHf" id="FfH-5T-i08"/>
                                             <outlet property="retweetLabel" destination="Mq2-Sa-FdY" id="fhz-xF-Sdc"/>
-                                            <outlet property="screennameLabel" destination="gme-UE-UK3" id="J9I-le-FSD"/>
+                                            <outlet property="screenNameLabel" destination="gme-UE-UK3" id="UHa-Sh-Ni0"/>
                                             <outlet property="timeLabel" destination="lb8-G1-rWw" id="AuC-ND-qhw"/>
                                             <outlet property="tweetTextLabel" destination="epC-Fs-Q5Z" id="ZLP-IG-Wsf"/>
                                         </connections>
@@ -253,9 +253,11 @@
     </scenes>
     <resources>
         <image name="TwitterLogoBlue" width="200" height="200"/>
+        <image name="favor-icon" width="30" height="30"/>
         <image name="favor-icon-red" width="30" height="30"/>
         <image name="message-icon" width="30" height="30"/>
         <image name="reply-icon" width="30" height="30"/>
+        <image name="retweet-icon" width="30" height="30"/>
         <image name="retweet-icon-green" width="30" height="30"/>
     </resources>
 </document>

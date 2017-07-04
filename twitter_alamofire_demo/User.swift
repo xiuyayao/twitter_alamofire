@@ -14,13 +14,14 @@ class User {
     static var current: User?
     
     var name: String
-    var screenName: String?
-    // Add any additional properties here
+    var screenName: String
+    var profileImageUrlString: String
     
     init(dictionary: [String: Any]) {
         name = dictionary["name"] as! String
-        screenName = dictionary["screen_name"] as? String
-        // Initialize any other properties
+        screenName = "@" + (dictionary["screen_name"] as! String)
+        profileImageUrlString = dictionary["profile_image_url_https"] as! String
+        
 
     }
 }
