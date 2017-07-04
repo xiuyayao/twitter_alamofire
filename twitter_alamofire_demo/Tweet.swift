@@ -44,7 +44,25 @@ class Tweet {
         // Convert Date to String
         createdAtString = formatter.string(from: date)
         
-        
+    }
+    
+    /*
+    static func tweets(with array: [[String: Any]]) -> [Tweet] {
+        var tweets: [Tweet] = []
+        for tweetDictionary in array {
+            let tweet = Tweet(dictionary: tweetDictionary)
+            tweets.append(tweet)
+        }
+        return tweets
+    }
+    */
+    
+    // both tweets are functionally the same
+    
+    static func tweets(with array: [[String: Any]]) -> [Tweet] {
+        return array.flatMap({ (dictionary) -> Tweet in
+            Tweet(dictionary: dictionary)
+        })
     }
 }
 
