@@ -20,71 +20,83 @@ class TweetCell: UITableViewCell {
     
     @IBOutlet weak var retweetLabel: UILabel!
     @IBOutlet weak var favesLabel: UILabel!
+
+    @IBOutlet weak var retweetButton: UIButton!
+    @IBOutlet weak var likeButton: UIButton!
+    
     
     @IBAction func replyAction(_ sender: UIButton) {
+        
     }
     
     @IBAction func retweetAction(_ sender: UIButton) {
+        if retweetButton.isSelected {
+            retweetButton.isSelected = false
+        } else {
+            retweetButton.isSelected = true
+        }
     }
     
     @IBAction func likeAction(_ sender: UIButton) {
+        
+        if likeButton.isSelected { // UNLIKE A TWEET
+            
+            likeButton.isSelected = false
+
+        } else { // LIKE A TWEET
+            likeButton.isSelected = true
+            
+            // Update the local tweet model
+            tweet.favorited = true
+            tweet.favoriteCount! += 1
+            
+            // TODO: Update cell UI
+            
+            // TODO: Send a POST request to the POST favorites/create endpoint
+            APIManager.shared.favorite(tweet) { (tweet: Tweet?, error: Error?) in
+                if let  error = error {
+                    print("Error favoriting tweet: \(error.localizedDescription)")
+                } else if let tweet = tweet {
+                    print("Successfully favorited the following Tweet: \n\(tweet.text)")
+                }
+            }
+        }
     }
     
     @IBAction func messageAction(_ sender: UIButton) {
     }
     
     
-    
-    /*
-    var id: Int64 // For favoriting, retweeting & replying
-    var text: String // Text content of tweet
-    var favoriteCount: Int? // Update favorite count label
-    var favorited: Bool? // Configure favorite button
-    var retweetCount: Int // Update favorite count label
-    var retweeted: Bool // Configure retweet button
-    var user: User // Contains name, screenname, etc. of tweet author
-    var createdAtString: String // Display date
-     
-     id = dictionary["id"] as! Int64
-     text = dictionary["text"] as! String
-     favoriteCount = dictionary["favorite_count"] as? Int
-     favorited = dictionary["favorited"] as? Bool
-     retweetCount = dictionary["retweet_count"] as! Int
-     retweeted = dictionary["retweeted"] as! Bool
-     
-     let user = dictionary["user"] as! [String: Any]
-     self.user = User(dictionary: user)
-     
-     let createdAtOriginalString = dictionary["created_at"] as! String
-     let formatter = DateFormatter()
-     // Configure the input format to parse the date string
-     formatter.dateFormat = "E MMM d HH:mm:ss Z y"
-     // Convert String to Date
-     let date = formatter.date(from: createdAtOriginalString)!
-     // Configure output format
-     formatter.dateStyle = .short
-     formatter.timeStyle = .none
-     // Convert Date to String
-     createdAtString = formatter.string(from: date)
-    */
-    
-    // MAKE MORE LABELS AND IMAGE VIEW OUTLETS
-    
     var tweet: Tweet! {
         didSet {
+            
+            profileImage.image = nil
+            
+            if tweet.retweeted {
+                retweetButton.isSelected = true
+            } else {
+                retweetButton.isSelected = false
+            }
+            
+            if tweet.favorited! {
+                likeButton.isSelected = true
+            } else {
+                likeButton.isSelected = false
+            }
+            
             tweetTextLabel.text = tweet.text
             nameLabel.text = tweet.user.name
             screenNameLabel.text = tweet.user.screenName
             timeLabel.text = tweet.createdAtString
             
             if tweet.retweetCount == 0 {
-                retweetLabel.text = ""
+                retweetLabel.text = "0"
             } else {
                 retweetLabel.text = String(tweet.retweetCount)
             }
             
-            if tweet.retweetCount == 0 {
-                favesLabel.text = ""
+            if tweet.favoriteCount == 0 {
+                favesLabel.text = "0"
             } else {
                 favesLabel.text = String(tweet.favoriteCount!)
             }
@@ -92,6 +104,10 @@ class TweetCell: UITableViewCell {
             let profileImageUrl = URL(string: tweet.user.profileImageUrlString)
             profileImage.af_setImage(withURL:  profileImageUrl!)
         }
+    }
+    
+    func refreshData() {
+        
     }
     
     override func awakeFromNib() {

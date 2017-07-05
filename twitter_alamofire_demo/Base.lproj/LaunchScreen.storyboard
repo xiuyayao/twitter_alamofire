@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -23,13 +23,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="TwitterLogoBlue" translatesAutoresizingMaskIntoConstraints="NO" id="q3I-LS-Bwu">
-                                <rect key="frame" x="87" y="50" width="200" height="200"/>
+                                <rect key="frame" x="87" y="233" width="200" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="q3I-LS-Bwu" secondAttribute="height" multiplier="1:1" id="coC-KK-STU"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="q3I-LS-Bwu" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="ci0-Bh-C2x"/>
-                            <constraint firstItem="q3I-LS-Bwu" firstAttribute="bottom" secondItem="Ze5-6b-2t3" secondAttribute="centerY" multiplier="3:4" id="jgj-Xc-0cx"/>
+                            <constraint firstItem="q3I-LS-Bwu" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="JW1-W8-uCP"/>
+                            <constraint firstItem="q3I-LS-Bwu" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="Qtx-yk-DM9"/>
                         </constraints>
                     </view>
                 </viewController>

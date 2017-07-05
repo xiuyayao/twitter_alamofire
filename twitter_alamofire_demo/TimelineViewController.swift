@@ -147,6 +147,21 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
      }
      */
     
+
+    // pass object through segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        let cell = sender as! TweetCell
+        
+        if let indexPath = tableView.indexPath(for: cell) {
+            
+            let tweet = tweets[indexPath.row]
+            let detailsViewController = segue.destination as! DetailsViewController
+            detailsViewController.tweet = tweet
+        }
+    }
+
+    
     class InfiniteScrollActivityView: UIView {
         var activityIndicatorView: UIActivityIndicatorView = UIActivityIndicatorView()
         static let defaultHeight:CGFloat = 60.0
