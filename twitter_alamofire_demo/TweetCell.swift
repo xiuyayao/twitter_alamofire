@@ -30,10 +30,56 @@ class TweetCell: UITableViewCell {
     }
     
     @IBAction func retweetAction(_ sender: UIButton) {
-        if retweetButton.isSelected {
+        
+        if retweetButton.isSelected { // UNRETWEET A TWEET
+            
             retweetButton.isSelected = false
-        } else {
+            
+            // Update the local tweet model
+            tweet.retweeted = false
+            tweet.retweetCount -= 1
+            
+            // TODO: Update cell UI
+            if tweet.retweetCount <= 0 {
+                tweet.retweetCount = 0
+                retweetLabel.text = "0"
+            } else {
+                retweetLabel.text = String(tweet.retweetCount)
+            }
+            
+            // TODO: Send a POST request to the POST favorites/create endpoint
+            APIManager.shared.unretweet(tweet) { (tweet: Tweet?, error: Error?) in
+                if let  error = error {
+                    print("Error unfavoriting tweet: \(error.localizedDescription)")
+                } else if let tweet = tweet {
+                    print("Successfully unfavorited the following Tweet: \n\(tweet.text)")
+                }
+            }
+            
+        } else { // LIKE A TWEET
+            
             retweetButton.isSelected = true
+            
+            // Update the local tweet model
+            tweet.retweeted = true
+            tweet.retweetCount += 1
+            
+            // TODO: Update cell UI
+            if tweet.retweetCount <= 0 {
+                tweet.retweetCount = 0
+                retweetLabel.text = "0"
+            } else {
+                retweetLabel.text = String(tweet.retweetCount)
+            }
+            
+            // TODO: Send a POST request to the POST favorites/create endpoint
+            APIManager.shared.retweet(tweet) { (tweet: Tweet?, error: Error?) in
+                if let  error = error {
+                    print("Error retweeting tweet: \(error.localizedDescription)")
+                } else if let tweet = tweet {
+                    print("Successfully retweeted the following Tweet: \n\(tweet.text)")
+                }
+            }
         }
     }
     
@@ -42,8 +88,30 @@ class TweetCell: UITableViewCell {
         if likeButton.isSelected { // UNLIKE A TWEET
             
             likeButton.isSelected = false
+            
+            // Update the local tweet model
+            tweet.favorited = false
+            tweet.favoriteCount! -= 1
+            
+            // TODO: Update cell UI
+            if tweet.favoriteCount! <= 0 {
+                tweet.favoriteCount = 0
+                favesLabel.text = "0"
+            } else {
+                favesLabel.text = String(tweet.favoriteCount!)
+            }
+            
+            // TODO: Send a POST request to the POST favorites/create endpoint
+            APIManager.shared.unfavorite(tweet) { (tweet: Tweet?, error: Error?) in
+                if let  error = error {
+                    print("Error unfavoriting tweet: \(error.localizedDescription)")
+                } else if let tweet = tweet {
+                    print("Successfully unfavorited the following Tweet: \n\(tweet.text)")
+                }
+            }
 
         } else { // LIKE A TWEET
+            
             likeButton.isSelected = true
             
             // Update the local tweet model
@@ -51,6 +119,12 @@ class TweetCell: UITableViewCell {
             tweet.favoriteCount! += 1
             
             // TODO: Update cell UI
+            if tweet.favoriteCount! <= 0 {
+                tweet.favoriteCount = 0
+                favesLabel.text = "0"
+            } else {
+                favesLabel.text = String(tweet.favoriteCount!)
+            }
             
             // TODO: Send a POST request to the POST favorites/create endpoint
             APIManager.shared.favorite(tweet) { (tweet: Tweet?, error: Error?) in
@@ -69,8 +143,6 @@ class TweetCell: UITableViewCell {
     
     var tweet: Tweet! {
         didSet {
-            
-            profileImage.image = nil
             
             if tweet.retweeted {
                 retweetButton.isSelected = true
