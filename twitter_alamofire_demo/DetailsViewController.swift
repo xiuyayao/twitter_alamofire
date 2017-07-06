@@ -42,6 +42,11 @@ class DetailsViewController: UIViewController {
         } else {
             favesLabel.text = String(tweet.favoriteCount!)
         }
+        
+        // make profileImage circular
+        profileImage.layer.cornerRadius = profileImage.frame.width / 2
+        profileImage.layer.masksToBounds = true
+        
         let profileImageUrl = URL(string: tweet.user.profileImageUrlString)
         profileImage.af_setImage(withURL:  profileImageUrl!)
     }

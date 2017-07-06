@@ -50,9 +50,9 @@ class TweetCell: UITableViewCell {
             // TODO: Send a POST request to the POST favorites/create endpoint
             APIManager.shared.unretweet(tweet) { (tweet: Tweet?, error: Error?) in
                 if let  error = error {
-                    print("Error unfavoriting tweet: \(error.localizedDescription)")
+                    print("Error unretweeting tweet: \(error.localizedDescription)")
                 } else if let tweet = tweet {
-                    print("Successfully unfavorited the following Tweet: \n\(tweet.text)")
+                    print("Successfully unretweeted the following Tweet: \n\(tweet.text)")
                 }
             }
             
@@ -93,7 +93,7 @@ class TweetCell: UITableViewCell {
             tweet.favorited = false
             tweet.favoriteCount! -= 1
             
-            // TODO: Update cell UI
+            // Update cell UI
             if tweet.favoriteCount! <= 0 {
                 tweet.favoriteCount = 0
                 favesLabel.text = "0"
@@ -101,7 +101,7 @@ class TweetCell: UITableViewCell {
                 favesLabel.text = String(tweet.favoriteCount!)
             }
             
-            // TODO: Send a POST request to the POST favorites/create endpoint
+            // Send a POST request to the POST favorites/create endpoint
             APIManager.shared.unfavorite(tweet) { (tweet: Tweet?, error: Error?) in
                 if let  error = error {
                     print("Error unfavoriting tweet: \(error.localizedDescription)")
@@ -118,7 +118,7 @@ class TweetCell: UITableViewCell {
             tweet.favorited = true
             tweet.favoriteCount! += 1
             
-            // TODO: Update cell UI
+            // Update cell UI
             if tweet.favoriteCount! <= 0 {
                 tweet.favoriteCount = 0
                 favesLabel.text = "0"
@@ -126,7 +126,7 @@ class TweetCell: UITableViewCell {
                 favesLabel.text = String(tweet.favoriteCount!)
             }
             
-            // TODO: Send a POST request to the POST favorites/create endpoint
+            // Send a POST request to the POST favorites/create endpoint
             APIManager.shared.favorite(tweet) { (tweet: Tweet?, error: Error?) in
                 if let  error = error {
                     print("Error favoriting tweet: \(error.localizedDescription)")
@@ -172,6 +172,10 @@ class TweetCell: UITableViewCell {
             } else {
                 favesLabel.text = String(tweet.favoriteCount!)
             }
+            
+            // make profileImage circular
+            profileImage.layer.cornerRadius = profileImage.frame.width / 2
+            profileImage.layer.masksToBounds = true
             
             let profileImageUrl = URL(string: tweet.user.profileImageUrlString)
             profileImage.af_setImage(withURL:  profileImageUrl!)

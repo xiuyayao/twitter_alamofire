@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TimelineViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
+class TimelineViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, ComposeViewControllerDelegate {
     
     var tweets: [Tweet] = []
     
@@ -19,6 +19,7 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
     var loadingMoreView: InfiniteScrollActivityView?
     
     @IBOutlet weak var tableView: UITableView!
+    
     
     func refresh() {
         // func refresh(withLimit limit: Int = 20)
@@ -74,6 +75,10 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
 
+    func did(post: Tweet) {
+        tweets.insert(post, at: 0)
+        tableView.reloadData()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -150,14 +155,20 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
 
     // pass object through segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        let cell = sender as! TweetCell
-        
-        if let indexPath = tableView.indexPath(for: cell) {
+        if segue.identifier == "composeSegue" {
             
-            let tweet = tweets[indexPath.row]
-            let detailsViewController = segue.destination as! DetailsViewController
-            detailsViewController.tweet = tweet
+            let destination = segue.destination as! ComposeViewController
+            destination.delegate = self
+            
+        } else if segue.identifier == "detailSegue" {
+            let cell = sender as! TweetCell
+            
+            if let indexPath = tableView.indexPath(for: cell) {
+                
+                let tweet = tweets[indexPath.row]
+                let detailsViewController = segue.destination as! DetailsViewController
+                detailsViewController.tweet = tweet
+            }
         }
     }
 
