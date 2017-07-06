@@ -83,7 +83,7 @@ class APIManager: SessionManager {
         // This uses tweets from disk to avoid hitting rate limit. Comment out if you want fresh tweets.
         // Call Alamofire request method
         
-
+/*
         if let data = UserDefaults.standard.object(forKey: "hometimeline_tweets") as? Data {
             let tweetDictionaries = NSKeyedUnarchiver.unarchiveObject(with: data) as! [[String: Any]]
             let tweets = tweetDictionaries.flatMap({ (dictionary) -> Tweet in
@@ -93,8 +93,7 @@ class APIManager: SessionManager {
             completion(tweets, nil)
             return
         }
-
-        
+*/
         
         
         request(URL(string: "https://api.twitter.com/1.1/statuses/home_timeline.json")!, method: .get)
@@ -209,6 +208,18 @@ class APIManager: SessionManager {
             let tweetDictionary = try! response.jsonObject() as! [String: Any]
             let tweet = Tweet(dictionary: tweetDictionary)
             completion(tweet, nil)
+        }) { (error: OAuthSwiftError) in
+            completion(nil, error.underlyingError)
+        }
+    }
+    
+    // MARK: TODO: Get User Details
+    func userDetails(screen_name: String, id: NSNumber, completion: @escaping (User?, Error?) -> ()) {
+        let urlString = "https://api.twitter.com/1.1/users/show.json"
+        let parameters = ["id": id, "screen_name": screen_name] as [String : Any]
+        oauthManager.client.get(urlString, parameters: parameters, headers: nil, success: { (response: OAuthSwiftResponse) in
+            let user = try! response.jsonObject() as! [String: Any]
+            completion(User(dictionary: user), nil)
         }) { (error: OAuthSwiftError) in
             completion(nil, error.underlyingError)
         }

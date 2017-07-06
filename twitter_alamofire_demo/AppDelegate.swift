@@ -13,10 +13,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     
-    
+    // function that is run right when app runs
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
-        // MARK: TODO: Check for logged in user
         
         NotificationCenter.default.addObserver(forName: Notification.Name("didLogout"), object: nil, queue: OperationQueue.main) { (Notification) in
             print("Logout notification received")
@@ -25,17 +23,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window?.rootViewController = loginVC
         }
         
-        /*
-        // check if user is logged in.
-        if let currentUser = PFUser.current() {
-            print("Welcome back \(currentUser.username!) 😀")
-            
+        // Check for logged in user
+        if User.current != nil {
+            print("Welcome back 😀")
+            // Load and show the login view controller
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let tabBarController = storyboard.instantiateViewController(withIdentifier: "TabBarController")
-            // TabBarController is storyboard ID
-            window?.rootViewController = tabBarController
+            let TabbarViewController = storyboard.instantiateViewController(withIdentifier: "TabbarViewController")
+            window?.rootViewController = TabbarViewController
         }
-        */
         
         return true
     }
