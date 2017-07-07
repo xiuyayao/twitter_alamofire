@@ -95,6 +95,7 @@ class APIManager: SessionManager {
         }
 */
         
+        
         request(URL(string: "https://api.twitter.com/1.1/statuses/home_timeline.json")!, method: .get)
             .validate()
             .responseJSON { (response) in
@@ -254,7 +255,7 @@ class APIManager: SessionManager {
     
     // MARK: TODO: Get User Timeline
     // FIX THIS SO THAT IT'S ONLY USER TIMELINE
-    func getUserTimeLine(completion: @escaping ([Tweet]?, Error?) -> ()) {
+    func getUserTimeLine(with user: User, completion: @escaping ([Tweet]?, Error?) -> ()) {
         
         // This uses tweets from disk to avoid hitting rate limit. Comment out if you want fresh tweets.
         // Call Alamofire request method
@@ -270,8 +271,9 @@ class APIManager: SessionManager {
             return
         }
 */
+        let parameters = ["screen_name": user.screenName]
         
-        request(URL(string: "https://api.twitter.com/1.1/statuses/user_timeline.json")!, method: .get)
+        request(URL(string: "https://api.twitter.com/1.1/statuses/user_timeline.json")!, method: .get, parameters: parameters)
             .validate()
             .responseJSON { (response) in
                 guard response.result.isSuccess else {

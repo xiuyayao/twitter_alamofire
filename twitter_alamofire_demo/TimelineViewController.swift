@@ -115,7 +115,7 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.separatorInset = UIEdgeInsets.zero
         
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 100
+        tableView.estimatedRowHeight = 150
         
 //        tableView.setNeedsLayout()
 //        tableView.layoutIfNeeded()

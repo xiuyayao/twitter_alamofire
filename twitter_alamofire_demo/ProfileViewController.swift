@@ -35,7 +35,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func refresh() {
         
-        APIManager.shared.getUserTimeLine { (tweets, error) in
+        APIManager.shared.getUserTimeLine(with: User.current!) {(tweets, error) in
             if let tweets = tweets {
                 self.tweets = tweets
                 
@@ -77,6 +77,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 loadingMoreView?.frame = frame
                 loadingMoreView!.startAnimating()
                 
+                // FIX THIS!!!!! HOW TO LOAD MORE TWEETS FROM TIMELINE
                 // Code to load more results
                 APIManager.shared.getMoreUserTweets(with: Int(tweets.last!.id), completion: { (tweets: [Tweet]?, error: Error?) in
                     if let tweets = tweets {
@@ -152,7 +153,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         refreshControl = UIRefreshControl()
         
         // If it had an event, who is it going to notify?
-        refreshControl.addTarget(self, action: #selector(TimelineViewController.didPullToRefresh(_:)), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(ProfileViewController.didPullToRefresh(_:)), for: .valueChanged)
         tableView.insertSubview(refreshControl, at: 0)
         
         // Set up Infinite Scroll loading indicator
