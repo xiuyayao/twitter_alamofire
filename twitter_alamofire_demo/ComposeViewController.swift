@@ -14,7 +14,9 @@ protocol ComposeViewControllerDelegate: class {
     func did(post: Tweet)
 }
 
-class ComposeViewController: UIViewController {
+class ComposeViewController: UIViewController, UITextViewDelegate {
+    
+    let postAlertController = UIAlertController(title: "Max Characters Reached", message: "Tweet CANNOT exceed 140 characters", preferredStyle: .alert)
     
     weak var delegate: ComposeViewControllerDelegate?
     
@@ -23,6 +25,8 @@ class ComposeViewController: UIViewController {
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var screenNameLabel: UILabel!
+    @IBOutlet weak var charCountLabel: UILabel!
+    
     
     @IBAction func didTapPost(_ sender: UIButton) {
         APIManager.shared.composeTweet(with: newTweet.text) { (tweet, error) in
@@ -42,10 +46,28 @@ class ComposeViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    func textViewDidChange(_ newTweet: UITextView) {
+        let text = newTweet.text!
+        let remainingCount = 140 - text.characters.count
+        let count = text.characters.count
+        
+        if count == 139
+        {
+            charCountLabel.text = "1 character remaining"
+        } else if count <= 140 {
+            charCountLabel.text = String(remainingCount) + " characters remaining"
+        } else {
+            charCountLabel.text = "0 characters remaining"
+            self.present(self.postAlertController, animated: true)
+        }
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        newTweet.delegate = self
+        
         nameLabel.text = User.current?.name
         screenNameLabel.text = User.current?.screenName
         
@@ -59,6 +81,14 @@ class ComposeViewController: UIViewController {
             let profileImageUrl = URL(string: user?.profileImageUrlString ?? "")
             self.profileImage.af_setImage(withURL: profileImageUrl!)
         }
+        
+        // create an OK action
+        let OKAction = UIAlertAction(title: "OK", style: .default) { (action) in
+            // handle response here.
+        }
+
+        // add the OK action to the alert controller
+        postAlertController.addAction(OKAction)
     }
 
     override func didReceiveMemoryWarning() {
