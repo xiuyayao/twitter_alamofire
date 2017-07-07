@@ -95,7 +95,6 @@ class APIManager: SessionManager {
         }
 
         
-        
         request(URL(string: "https://api.twitter.com/1.1/statuses/home_timeline.json")!, method: .get)
             .validate()
             .responseJSON { (response) in
@@ -121,7 +120,7 @@ class APIManager: SessionManager {
         }
     }
     
-    // Get older tweets, for infinite scrolling
+    // MARK: Get older tweets, for infinite scrolling
     func getMoreHomeTweets(with tweetId: Int, completion: @escaping ([Tweet]?, Error?) -> ()) {
         let parameters = ["max_id": tweetId]
         
@@ -150,7 +149,7 @@ class APIManager: SessionManager {
         }
     }
     
-    // MARK: TODO: Favorite a Tweet
+    // MARK: Favorite a Tweet
     func favorite(_ tweet: Tweet, completion: @escaping (Tweet?, Error?) -> ()) {
         let urlString = "https://api.twitter.com/1.1/favorites/create.json"
         let parameters = ["id": tweet.id]
@@ -165,7 +164,7 @@ class APIManager: SessionManager {
         }
     }
     
-    // MARK: TODO: Un-Favorite a Tweet
+    // MARK: Un-Favorite a Tweet
     func unfavorite(_ tweet: Tweet, completion: @escaping (Tweet?, Error?) -> ()) {
         let urlString = "https://api.twitter.com/1.1/favorites/destroy.json"
         let parameters = ["id": tweet.id]
@@ -180,7 +179,7 @@ class APIManager: SessionManager {
         }
     }
     
-    // MARK: TODO: Retweet
+    // MARK: Retweet
     func retweet(_ tweet: Tweet, completion: @escaping (Tweet?, Error?) -> ()) {
         
         let parameters = ["id": tweet.id]
@@ -204,7 +203,7 @@ class APIManager: SessionManager {
         }
     }
     
-    // MARK: TODO: Un-Retweet
+    // MARK: Un-Retweet
     func unretweet(_ tweet: Tweet, completion: @escaping (Tweet?, Error?) -> ()) {
         
         let parameters = ["id": tweet.id]
@@ -228,8 +227,7 @@ class APIManager: SessionManager {
         }
     }
     
-    // MARK: TODO: Compose Tweet
-    // FIX THIS
+    // MARK: Compose Tweet
     func composeTweet(with text: String, completion: @escaping (Tweet?, Error?) -> ()) {
         let urlString = "https://api.twitter.com/1.1/statuses/update.json"
         let parameters = ["status": text]
@@ -242,7 +240,7 @@ class APIManager: SessionManager {
         }
     }
     
-    // MARK: TODO: Get User Details
+    // MARK: Get User Details
     func userDetails(screen_name: String, id: NSNumber, completion: @escaping (User?, Error?) -> ()) {
         let urlString = "https://api.twitter.com/1.1/users/show.json"
         let parameters = ["id": id, "screen_name": screen_name] as [String : Any]
@@ -255,7 +253,78 @@ class APIManager: SessionManager {
     }
     
     // MARK: TODO: Get User Timeline
+    // FIX THIS SO THAT IT'S ONLY USER TIMELINE
+    func getUserTimeLine(completion: @escaping ([Tweet]?, Error?) -> ()) {
+        
+        // This uses tweets from disk to avoid hitting rate limit. Comment out if you want fresh tweets.
+        // Call Alamofire request method
+        
+        
+        if let data = UserDefaults.standard.object(forKey: "usertimeline_tweets") as? Data {
+            let tweetDictionaries = NSKeyedUnarchiver.unarchiveObject(with: data) as! [[String: Any]]
+            let tweets = tweetDictionaries.flatMap({ (dictionary) -> Tweet in
+                Tweet(dictionary: dictionary)
+            })
+            
+            completion(tweets, nil)
+            return
+        }
+        
+        
+        request(URL(string: "https://api.twitter.com/1.1/statuses/user_timeline.json")!, method: .get)
+            .validate()
+            .responseJSON { (response) in
+                guard response.result.isSuccess else {
+                    completion(nil, response.result.error)
+                    return
+                }
+                guard let tweetDictionaries = response.result.value as? [[String: Any]] else {
+                    print("Failed to parse tweets")
+                    let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey : "Failed to parse tweets"])
+                    completion(nil, error)
+                    return
+                }
+                
+                let data = NSKeyedArchiver.archivedData(withRootObject: tweetDictionaries)
+                UserDefaults.standard.set(data, forKey: "usertimeline_tweets")
+                UserDefaults.standard.synchronize()
+                
+                let tweets = tweetDictionaries.flatMap({ (dictionary) -> Tweet in
+                    Tweet(dictionary: dictionary)
+                })
+                completion(tweets, nil)
+        }
+    }
     
+    // MARK: Get older user tweets, for infinite scrolling
+    func getMoreUserTweets(with tweetId: Int, completion: @escaping ([Tweet]?, Error?) -> ()) {
+        let parameters = ["max_id": tweetId]
+        
+        request(URL(string: "https://api.twitter.com/1.1/statuses/user_timeline.json")!, method: .get, parameters: parameters)
+            .validate()
+            .responseJSON { (response) in
+                guard response.result.isSuccess else {
+                    completion(nil, response.result.error)
+                    return
+                }
+                guard let tweetDictionaries = response.result.value as? [[String: Any]] else {
+                    print("Failed to parse tweets")
+                    let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey : "Failed to parse tweets"])
+                    completion(nil, error)
+                    return
+                }
+                
+                let data = NSKeyedArchiver.archivedData(withRootObject: tweetDictionaries)
+                UserDefaults.standard.set(data, forKey: "usertimeline_tweets")
+                UserDefaults.standard.synchronize()
+                
+                let tweets = tweetDictionaries.flatMap({ (dictionary) -> Tweet in
+                    Tweet(dictionary: dictionary)
+                })
+                completion(tweets, nil)
+        }
+    }
+
     
     //--------------------------------------------------------------------------------//
     
