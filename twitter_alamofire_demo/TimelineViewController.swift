@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TimelineViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, ComposeViewControllerDelegate {
+class TimelineViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, ComposeViewControllerDelegate, TweetCellDelegate {
     
     var tweets: [Tweet] = []
     
@@ -20,10 +20,12 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
     
     @IBOutlet weak var tableView: UITableView!
     
+    func tweetCell(_ tweetCell: TweetCell, didTap user: User) {
+        // Perform segue to profile view controller
+        performSegue(withIdentifier: "viewProfileSegue", sender: user)
+    }
     
     func refresh() {
-        // func refresh(withLimit limit: Int = 20)
-        // HOW TO DO INFINITE SCROLLING
 
         APIManager.shared.getHomeTimeLine { (tweets, error) in
             if let tweets = tweets {
@@ -146,6 +148,7 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         
         // set the tweet property of the cell to the current tweet
         cell.tweet = tweets[indexPath.row]
+        cell.delegate = self
         
         return cell
     }
@@ -159,22 +162,9 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         // Dispose of any resources that can be recreated.
     }
     
-    
     @IBAction func didTapLogout(_ sender: Any) {
         APIManager.shared.logout()
     }
-    
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
 
     // pass object through segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -192,6 +182,12 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
                 let detailsViewController = segue.destination as! DetailsViewController
                 detailsViewController.tweet = tweet
             }
+        } else if segue.identifier == "viewProfileSegue" {
+            
+            let user = sender as! User
+            
+            let otherProfileViewController = segue.destination as! OtherProfileViewController
+            otherProfileViewController.user = user
         }
     }
 

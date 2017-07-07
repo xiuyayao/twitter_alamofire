@@ -9,7 +9,14 @@
 import UIKit
 import AlamofireImage
 
+protocol TweetCellDelegate: class {
+    // Add required methods the delegate needs to implement
+    func tweetCell(_ tweetCell: TweetCell, didTap user: User)
+}
+
 class TweetCell: UITableViewCell {
+    
+    weak var delegate: TweetCellDelegate?
     
     @IBOutlet weak var profileImage: UIImageView!
     
@@ -23,7 +30,6 @@ class TweetCell: UITableViewCell {
 
     @IBOutlet weak var retweetButton: UIButton!
     @IBOutlet weak var likeButton: UIButton!
-    
     
     @IBAction func replyAction(_ sender: UIButton) {
         
@@ -39,7 +45,7 @@ class TweetCell: UITableViewCell {
             tweet.retweeted = false
             tweet.retweetCount -= 1
             
-            // TODO: Update cell UI
+            // Update cell UI
             if tweet.retweetCount <= 0 {
                 tweet.retweetCount = 0
                 retweetLabel.text = "0"
@@ -47,7 +53,7 @@ class TweetCell: UITableViewCell {
                 retweetLabel.text = String(tweet.retweetCount)
             }
             
-            // TODO: Send a POST request to the POST favorites/create endpoint
+            // Send a POST request to the POST favorites/create endpoint
             APIManager.shared.unretweet(tweet) { (tweet: Tweet?, error: Error?) in
                 if let  error = error {
                     print("Error unretweeting tweet: \(error.localizedDescription)")
@@ -64,7 +70,7 @@ class TweetCell: UITableViewCell {
             tweet.retweeted = true
             tweet.retweetCount += 1
             
-            // TODO: Update cell UI
+            // Update cell UI
             if tweet.retweetCount <= 0 {
                 tweet.retweetCount = 0
                 retweetLabel.text = "0"
@@ -72,7 +78,7 @@ class TweetCell: UITableViewCell {
                 retweetLabel.text = String(tweet.retweetCount)
             }
             
-            // TODO: Send a POST request to the POST favorites/create endpoint
+            // Send a POST request to the POST favorites/create endpoint
             APIManager.shared.retweet(tweet) { (tweet: Tweet?, error: Error?) in
                 if let  error = error {
                     print("Error retweeting tweet: \(error.localizedDescription)")
@@ -186,9 +192,18 @@ class TweetCell: UITableViewCell {
         
     }
     
+    func didTapUserProfile(_ sender: UITapGestureRecognizer) {
+        // Call method on delegate
+        delegate?.tweetCell(self, didTap: tweet.user)
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+        let profileTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.didTapUserProfile(_:)))
+        profileImage.addGestureRecognizer(profileTapGestureRecognizer)
+        profileImage.isUserInteractionEnabled = true
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
