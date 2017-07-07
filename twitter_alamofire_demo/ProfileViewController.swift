@@ -28,22 +28,24 @@ class ProfileViewController: UIViewController {
         nameLabel.text = User.current?.name
         screenNameLabel.text = User.current?.screenName
         
-        followersCount.text = String(describing: User.current?.followersCount)
-        followingsCount.text = String(describing: User.current?.followingsCount)
+        followersCount.text = String(describing: (User.current?.followersCount)!)
+        followingsCount.text = String(describing: (User.current?.followingsCount)!)
         
         // make profileImage circular
         profileImage.layer.cornerRadius = profileImage.frame.width / 2
         profileImage.layer.masksToBounds = true
         
-        let profileImageUrl = URL(string: (User.current?.profileImageUrlString)!)
-        profileImage.af_setImage(withURL: profileImageUrl!)
         
+        
+        // make an api call to the /users/show endpoint
         APIManager.shared.userDetails(screen_name: User.current!.screenName, id: User.current!.id) { (user: User?, error: Error?) in
+            
             let url = URL(string: user?.backgroundImageUrlString ?? "") // nil coalesence
             self.backgroundImage.af_setImage(withURL: url!)
+            
+            let profileImageUrl = URL(string: user?.profileImageUrlString ?? "")
+            self.profileImage.af_setImage(withURL: profileImageUrl!)
         }
-        
-        // make an api call to the /users/show endpoint 
     }
 
     override func didReceiveMemoryWarning() {

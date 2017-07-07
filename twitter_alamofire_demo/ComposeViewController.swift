@@ -53,8 +53,12 @@ class ComposeViewController: UIViewController {
         profileImage.layer.cornerRadius = profileImage.frame.width / 2
         profileImage.layer.masksToBounds = true
         
-        let profileImageUrl = URL(string: (User.current?.profileImageUrlString)!)
-        profileImage.af_setImage(withURL: profileImageUrl!)
+        // make an api call to the /users/show endpoint
+        APIManager.shared.userDetails(screen_name: User.current!.screenName, id: User.current!.id) { (user: User?, error: Error?) in
+            
+            let profileImageUrl = URL(string: user?.profileImageUrlString ?? "")
+            self.profileImage.af_setImage(withURL: profileImageUrl!)
+        }
     }
 
     override func didReceiveMemoryWarning() {

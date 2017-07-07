@@ -10,16 +10,13 @@ import UIKit
 import Foundation
 
 class User {
-    var id: NSNumber
     
+    var id: NSNumber
     var name: String
     var screenName: String
-    
     var followingsCount: Int
     var followersCount: Int
-    
     var profileImageUrlString: String
-
     var backgroundImageUrlString: String?
     
     // For user persistance
@@ -27,22 +24,18 @@ class User {
     
     init(dictionary: [String: Any]) {
         
-        print(dictionary)
+        // print(dictionary)
         
         id = dictionary["id"] as! NSNumber
-        
         name = dictionary["name"] as! String
         screenName = "@" + (dictionary["screen_name"] as! String)
-        
         followingsCount = dictionary["friends_count"] as! Int
         followersCount = dictionary["followers_count"] as! Int
-        
         profileImageUrlString = dictionary["profile_image_url_https"] as! String
         
         if dictionary["profile_banner_url"] != nil {
-            backgroundImageUrlString = dictionary["profile_banner_url"] as! String
+            backgroundImageUrlString = dictionary["profile_banner_url"] as? String
         }
-
         self.dictionary = dictionary
     }
     
