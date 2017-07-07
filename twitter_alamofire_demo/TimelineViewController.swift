@@ -68,9 +68,32 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
                 loadingMoreView!.startAnimating()
                 
                 // Code to load more results
-                // ADD STUFF HERE
-                // refresh(withLimit: self.tweets.count + 20)
-                refresh()
+                APIManager.shared.getMoreHomeTweets(with: Int(tweets.last!.id), completion: { (tweets: [Tweet]?, error: Error?) in
+                    if let tweets = tweets {
+                        print("successful loading more tweets")
+                        
+                        // Update flag
+                        self.isMoreDataLoading = false
+                        // Stop the loading indicator
+                        self.loadingMoreView?.stopAnimating()
+                        
+                        if tweets.count == 1 {
+                            
+                        } else {
+                            for tweet in tweets {
+                                self.tweets.append(tweet)
+                            }
+                            // Reload the tableView now that there is new data
+                            self.tableView.reloadData()
+                        }
+                        
+                        // for debugging
+                        print("Number of posts in feed: \(tweets.count)")
+                        
+                    } else if let error = error {
+                        print("Error getting home timeline: " + error.localizedDescription)
+                    }
+                })
             }
         }
     }
