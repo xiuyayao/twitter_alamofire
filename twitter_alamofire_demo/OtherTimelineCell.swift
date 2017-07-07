@@ -9,6 +9,7 @@
 
 import UIKit
 import AlamofireImage
+import ActiveLabel
 
 /*
 protocol OtherTimelineCellDelegate: class {
@@ -26,7 +27,7 @@ class OtherTimelineCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var screenNameLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var tweetTextLabel: UILabel!
+    @IBOutlet weak var tweetTextLabel: ActiveLabel!
     
     @IBOutlet weak var retweetLabel: UILabel!
     @IBOutlet weak var favesLabel: UILabel!
@@ -165,7 +166,23 @@ class OtherTimelineCell: UITableViewCell {
                 likeButton.isSelected = false
             }
             
-            tweetTextLabel.text = tweet.text
+            // tweetTextLabel.text = tweet.text
+            
+            tweetTextLabel.customize { label in
+                label.text = tweet.text
+                // label.text = "This is a post with #multiple #hashtags and a @userhandle."
+                label.textColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)
+                label.hashtagColor = UIColor(red: 29/255, green: 161/255, blue: 242/255, alpha: 1)
+                label.mentionColor = UIColor(red: 29/255, green: 161/255, blue: 242/255, alpha: 1)
+                label.URLColor = UIColor(red: 29/255, green: 161/255, blue: 242/255, alpha: 1)
+                // label.handleMentionTap { self.alert("Mention", message: $0) }
+                // label.handleHashtagTap { self.alert("Hashtag", message: $0) }
+                // label.handleURLTap { self.alert("URL", message: $0.absoluteString) }
+                
+                // FIX THIS LINE OF CODE?? RUNS FINE BUT WARNINGS
+                label.handleURLTap { url in UIApplication.shared.openURL(url) }
+            }
+            
             nameLabel.text = tweet.user.name
             screenNameLabel.text = tweet.user.screenName
             timeLabel.text = tweet.createdAtString
