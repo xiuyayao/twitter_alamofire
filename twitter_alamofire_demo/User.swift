@@ -33,6 +33,14 @@ class User {
         followersCount = dictionary["followers_count"] as! Int
         profileImageUrlString = dictionary["profile_image_url_https"] as! String
         
+        if profileImageUrlString.contains(".jpg") {
+            profileImageUrlString = String((profileImageUrlString.characters.dropLast(11))) + ".jpg"
+        } else {
+            profileImageUrlString = String((profileImageUrlString.characters.dropLast(12))) + ".jpeg"
+        }
+        
+        
+        
         if dictionary["profile_banner_url"] != nil {
             backgroundImageUrlString = dictionary["profile_banner_url"] as? String
         }

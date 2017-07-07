@@ -177,7 +177,7 @@ class TweetCell: UITableViewCell {
                 // label.handleURLTap { self.alert("URL", message: $0.absoluteString) }
                 
                 // FIX THIS LINE OF CODE?? RUNS FINE BUT WARNINGS
-                label.handleURLTap { url in UIApplication.shared.openURL(url) }
+                label.handleURLTap { url in UIApplication.shared.open(url) }
             }
             
             nameLabel.text = tweet.user.name
