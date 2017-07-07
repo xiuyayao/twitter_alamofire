@@ -9,7 +9,7 @@
 import UIKit
 import AlamofireImage
 
-class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, UserTimelineCellDelegate {
+class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, ComposeViewControllerDelegate, UserTimelineCellDelegate {
     
     @IBOutlet weak var backgroundImage: UIImageView!
     @IBOutlet weak var profileImage: UIImageView!
@@ -108,13 +108,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
-    // for compose
-    /*
     func did(post: Tweet) {
         tweets.insert(post, at: 0)
         tableView.reloadData()
     }
-    */
 
     
     override func viewDidLoad() {
@@ -195,12 +192,16 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func didTapLogout(_ sender: Any) {
+        APIManager.shared.logout()
+    }
+    
     // pass object through segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "composeSegue" {
             
-            // let destination = segue.destination as! ComposeViewController
-            // destination.delegate = self
+            let destination = segue.destination as! ComposeViewController
+            destination.delegate = self
             
         } else if segue.identifier == "detailSegue" {
             let cell = sender as! UserTimelineCell
