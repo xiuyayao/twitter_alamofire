@@ -70,7 +70,7 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
                 loadingMoreView!.startAnimating()
                 
                 // Code to load more results
-                APIManager.shared.getMoreHomeTweets(with: Int(tweets.last!.id), completion: { (tweets: [Tweet]?, error: Error?) in
+                APIManager.shared.getMoreHomeTweets(with: Int(tweets.last!.id) - 1, completion: { (tweets: [Tweet]?, error: Error?) in
                     if let tweets = tweets {
                         print("successful loading more tweets")
                         

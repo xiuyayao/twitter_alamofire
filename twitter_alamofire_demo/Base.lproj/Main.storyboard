@@ -223,7 +223,7 @@
                                                 <constraint firstAttribute="bottom" secondItem="SFx-7h-Iwy" secondAttribute="bottom" id="Z8D-WF-YEH"/>
                                                 <constraint firstAttribute="bottom" secondItem="Mq2-Sa-FdY" secondAttribute="bottom" id="ZOy-Qh-nd3"/>
                                                 <constraint firstItem="gme-UE-UK3" firstAttribute="leading" secondItem="wi0-6i-OKb" secondAttribute="trailing" constant="8" id="bjo-KN-IY4"/>
-                                                <constraint firstItem="APl-YP-jha" firstAttribute="top" secondItem="YEi-TN-qav" secondAttribute="bottom" constant="8" id="enu-7F-hgR"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="YEi-TN-qav" secondAttribute="bottom" constant="35.5" id="gG3-Lg-0by"/>
                                                 <constraint firstItem="g4k-cQ-1RM" firstAttribute="leading" secondItem="vVb-3H-eIA" secondAttribute="trailing" id="gTc-BD-Qqk"/>
                                                 <constraint firstItem="YEi-TN-qav" firstAttribute="trailing" secondItem="zd2-Er-659" secondAttribute="trailingMargin" id="iEt-hj-SJ4"/>
                                                 <constraint firstItem="lb8-G1-rWw" firstAttribute="bottom" secondItem="gme-UE-UK3" secondAttribute="bottom" id="iXJ-KK-rA0"/>
@@ -258,9 +258,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Ctl-bI-Eag" firstAttribute="top" secondItem="JNb-nQ-JaL" secondAttribute="top" id="1h6-GZ-a8e"/>
+                            <constraint firstItem="Ctl-bI-Eag" firstAttribute="leading" secondItem="JNb-nQ-JaL" secondAttribute="leading" id="7ri-Xe-XVO"/>
                             <constraint firstAttribute="trailing" secondItem="Ctl-bI-Eag" secondAttribute="trailing" id="9h2-S6-c8m"/>
                             <constraint firstItem="Ctl-bI-Eag" firstAttribute="leading" secondItem="JNb-nQ-JaL" secondAttribute="leading" id="BJU-t7-Amc"/>
+                            <constraint firstAttribute="bottom" secondItem="Ctl-bI-Eag" secondAttribute="bottom" id="MEk-uM-urG"/>
                             <constraint firstAttribute="bottom" secondItem="Ctl-bI-Eag" secondAttribute="bottom" id="jsb-6x-e50"/>
+                            <constraint firstItem="Ctl-bI-Eag" firstAttribute="top" secondItem="JNb-nQ-JaL" secondAttribute="top" id="kYJ-Zq-3kM"/>
+                            <constraint firstAttribute="trailing" secondItem="Ctl-bI-Eag" secondAttribute="trailing" id="nNi-gf-EyB"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Home" id="9Zi-uW-GTS">
@@ -1200,8 +1204,8 @@
         <image name="tweet_button" width="184" height="68"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="rYO-20-7FP"/>
-        <segue reference="Gtf-sD-wzO"/>
-        <segue reference="sHG-8D-rzy"/>
+        <segue reference="GlW-v3-UJ9"/>
+        <segue reference="2mx-3C-iuh"/>
+        <segue reference="xIX-R6-MKn"/>
     </inferredMetricsTieBreakers>
 </document>
