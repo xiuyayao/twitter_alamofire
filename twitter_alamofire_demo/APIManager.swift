@@ -270,7 +270,8 @@ class APIManager: SessionManager {
             completion(tweets, nil)
             return
         }
-*/
+ */
+
         let parameters = ["screen_name": user.screenName]
         
         request(URL(string: "https://api.twitter.com/1.1/statuses/user_timeline.json")!, method: .get, parameters: parameters)

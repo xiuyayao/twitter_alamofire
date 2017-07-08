@@ -9,8 +9,8 @@
 import UIKit
 import AlamofireImage
 
-class OtherProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate
-//, OtherTimelineCellDelegate
+class OtherProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource
+// , UIScrollViewDelegate
 {
     
     @IBOutlet weak var backgroundImage: UIImageView!
@@ -28,7 +28,7 @@ class OtherProfileViewController: UIViewController, UITableViewDelegate, UITable
     
     // Create a flag
     var isMoreDataLoading = false
-    var loadingMoreView: InfiniteScrollActivityView?
+    // var loadingMoreView: InfiniteScrollActivityView?
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -49,7 +49,7 @@ class OtherProfileViewController: UIViewController, UITableViewDelegate, UITable
                 print("Number of posts in feed: \(tweets.count)")
                 
                 // Stop the loading indicator
-                self.loadingMoreView?.stopAnimating()
+                // self.loadingMoreView?.stopAnimating()
                 // Update flag
                 self.isMoreDataLoading = false
                 // Reload the tableView now that there is new data
@@ -68,6 +68,7 @@ class OtherProfileViewController: UIViewController, UITableViewDelegate, UITable
         self.tableView.reloadData()
     }
     
+    /*
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if (!isMoreDataLoading) {
             // Calculate the position of one screen length before the bottom of the results
@@ -82,7 +83,6 @@ class OtherProfileViewController: UIViewController, UITableViewDelegate, UITable
                 let frame = CGRect(x: 0, y: tableView.contentSize.height, width: tableView.bounds.size.width, height: InfiniteScrollActivityView.defaultHeight)
                 loadingMoreView?.frame = frame
                 loadingMoreView!.startAnimating()
-                
                 
                 // FIX THIS!!!!! HOW TO LOAD MORE TWEETS FROM TIMELINE
                 // Code to load more results
@@ -115,6 +115,7 @@ class OtherProfileViewController: UIViewController, UITableViewDelegate, UITable
             }
         }
     }
+    */
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -157,6 +158,7 @@ class OtherProfileViewController: UIViewController, UITableViewDelegate, UITable
         refreshControl.addTarget(self, action: #selector(OtherProfileViewController.didPullToRefresh(_:)), for: .valueChanged)
         tableView.insertSubview(refreshControl, at: 0)
         
+        /*
         // Set up Infinite Scroll loading indicator
         let frame = CGRect(x: 0, y: tableView.contentSize.height, width: tableView.bounds.size.width, height: InfiniteScrollActivityView.defaultHeight)
         loadingMoreView = InfiniteScrollActivityView(frame: frame)
@@ -166,6 +168,7 @@ class OtherProfileViewController: UIViewController, UITableViewDelegate, UITable
         var insets = tableView.contentInset
         insets.bottom += InfiniteScrollActivityView.defaultHeight
         tableView.contentInset = insets
+        */
         
         refresh()
         

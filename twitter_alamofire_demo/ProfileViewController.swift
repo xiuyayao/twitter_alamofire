@@ -9,7 +9,11 @@
 import UIKit
 import AlamofireImage
 
-class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, ComposeViewControllerDelegate, UserTimelineCellDelegate {
+class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,
+    
+    // UIScrollViewDelegate, ComposeViewControllerDelegate, UserTimelineCellDelegate {
+    ComposeViewControllerDelegate, UserTimelineCellDelegate {
+
     
     @IBOutlet weak var backgroundImage: UIImageView!
     @IBOutlet weak var profileImage: UIImageView!
@@ -24,7 +28,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     // Create a flag
     var isMoreDataLoading = false
-    var loadingMoreView: InfiniteScrollActivityView?
+    // var loadingMoreView: InfiniteScrollActivityView?
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -43,7 +47,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 print("Number of posts in feed: \(tweets.count)")
                 
                 // Stop the loading indicator
-                self.loadingMoreView?.stopAnimating()
+                // self.loadingMoreView?.stopAnimating()
                 // Update flag
                 self.isMoreDataLoading = false
                 // Reload the tableView now that there is new data
@@ -62,6 +66,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.tableView.reloadData()
     }
     
+    /*
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if (!isMoreDataLoading) {
             // Calculate the position of one screen length before the bottom of the results
@@ -77,6 +82,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 loadingMoreView?.frame = frame
                 loadingMoreView!.startAnimating()
                 
+
                 // FIX THIS!!!!! HOW TO LOAD MORE TWEETS FROM TIMELINE
                 // Code to load more results
                 APIManager.shared.getMoreUserTweets(with: Int(tweets.last!.id), completion: { (tweets: [Tweet]?, error: Error?) in
@@ -108,6 +114,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
         }
     }
+    */
     
     func did(post: Tweet) {
         tweets.insert(post, at: 0)
@@ -117,6 +124,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationController?.navigationBar.titleTextAttributes = [
+            NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightHeavy)
+        ]
 
         nameLabel.text = User.current?.name
         screenNameLabel.text = User.current?.screenName
@@ -156,6 +167,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         refreshControl.addTarget(self, action: #selector(ProfileViewController.didPullToRefresh(_:)), for: .valueChanged)
         tableView.insertSubview(refreshControl, at: 0)
         
+        /*
         // Set up Infinite Scroll loading indicator
         let frame = CGRect(x: 0, y: tableView.contentSize.height, width: tableView.bounds.size.width, height: InfiniteScrollActivityView.defaultHeight)
         loadingMoreView = InfiniteScrollActivityView(frame: frame)
@@ -165,6 +177,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         var insets = tableView.contentInset
         insets.bottom += InfiniteScrollActivityView.defaultHeight
         tableView.contentInset = insets
+        */
         
         refresh()
 

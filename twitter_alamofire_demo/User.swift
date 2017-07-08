@@ -39,8 +39,6 @@ class User {
             profileImageUrlString = String((profileImageUrlString.characters.dropLast(12))) + ".jpeg"
         }
         
-        
-        
         if dictionary["profile_banner_url"] != nil {
             backgroundImageUrlString = dictionary["profile_banner_url"] as? String
         }

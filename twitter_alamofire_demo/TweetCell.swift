@@ -19,6 +19,11 @@ class TweetCell: UITableViewCell {
     
     weak var delegate: TweetCellDelegate?
     
+    @IBOutlet weak var mediaImage: UIImageView!
+    
+    @IBOutlet weak var mediaImageHeight: NSLayoutConstraint!
+    
+    
     @IBOutlet weak var profileImage: UIImageView!
     
     @IBOutlet weak var nameLabel: UILabel!
@@ -28,7 +33,7 @@ class TweetCell: UITableViewCell {
     
     @IBOutlet weak var retweetLabel: UILabel!
     @IBOutlet weak var favesLabel: UILabel!
-
+    
     @IBOutlet weak var retweetButton: UIButton!
     @IBOutlet weak var likeButton: UIButton!
     
@@ -116,7 +121,7 @@ class TweetCell: UITableViewCell {
                     print("Successfully unfavorited the following Tweet: \n\(tweet.text)")
                 }
             }
-
+            
         } else { // LIKE A TWEET
             
             likeButton.isSelected = true
@@ -150,6 +155,14 @@ class TweetCell: UITableViewCell {
     
     var tweet: Tweet! {
         didSet {
+            
+            if let displayURL = tweet.displayUrl {
+                mediaImageHeight.constant = 300
+                mediaImage.af_setImage(withURL: displayURL)
+            } else {
+                mediaImageHeight.constant = 0
+                mediaImage.image = nil
+            }
             
             if tweet.retweeted {
                 retweetButton.isSelected = true
